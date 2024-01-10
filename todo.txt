@@ -1,0 +1,15 @@
+schermata finale morte o vittoria
+
+deallocazione 
+stapa dati giocatore durante combattimento
+
+
+opzionale:
+aggiungere più frasi randomiche per le varie situazioni se c'è tempo
+
+--
+gcc -o out main.c terminallib.c players.c maps.c gamelib.c enemy.c -std=c11 -Wall 
+
+find .git/objects/ -size 0 -exec rm -f {} \;
+git fetch origin
+--
