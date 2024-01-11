@@ -28,14 +28,20 @@ int main()
 
             yellow();
             bold();
-            printf("-----------Scalogna-Quest-----------\n**Through the Fire and Flames di sottofondo**\n");
+
+            printf("███████╗ ██████╗ █████╗ ██╗      ██████╗  ██████╗ ███╗   ██╗ █████╗        ██████╗ ██╗   ██╗███████╗███████╗████████╗\n");
+            printf("██╔════╝██╔════╝██╔══██╗██║     ██╔═══██╗██╔════╝ ████╗  ██║██╔══██╗      ██╔═══██╗██║   ██║██╔════╝██╔════╝╚══██╔══╝\n");
+            printf("███████╗██║     ███████║██║     ██║   ██║██║  ███╗██╔██╗ ██║███████║█████╗██║   ██║██║   ██║█████╗  ███████╗   ██║   \n");
+            printf("╚════██║██║     ██╔══██║██║     ██║   ██║██║   ██║██║╚██╗██║██╔══██║╚════╝██║▄▄ ██║██║   ██║██╔══╝  ╚════██║   ██║   \n");
+            printf("███████║╚██████╗██║  ██║███████╗╚██████╔╝╚██████╔╝██║ ╚████║██║  ██║      ╚██████╔╝╚██████╔╝███████╗███████║   ██║   \n");
+            printf("╚══════╝ ╚═════╝╚═╝  ╚═╝╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝       ╚══▀▀═╝  ╚═════╝ ╚══════╝╚══════╝   ╚═╝   \n");
+
+            printf("\n**Through the Fire and Flames di sottofondo**\n");
             reset();
             cyan();
             printf("\n[1]Imposta Gioco");
             reset();
-            bgRed();
-            printf("%s", ((created) ? "\n[2]Gioca" : ""));//if the map has not been created, the user cannot choose the play option. Input check carried out anyway
-            reset();
+            printf("%s", ((created) ? "\n[2]Gioca" : "")); // if the map has not been created, the user cannot choose the play option. Input check carried out anyway
             red();
             printf("\n[3]Termina gioco \n");
 

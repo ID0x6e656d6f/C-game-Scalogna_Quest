@@ -703,27 +703,31 @@ static void indietreggia(int player)
 static void prendi_tesoro(int player)
 {
     int eff = (arrayGiocatori + player)->posizione->tesoro;
-    switch (eff)
+    if ((arrayGiocatori + player)->posizione->tesoro_preso == false)
     {
-    case 0:
-        printf("La stanza è vuota, non trovi alcun tesoro\n");
-        break;
-    case 1:
-        printf("Hai aperto uno scrigno dall'aspetto celestiale e al suo interno trovi una bottitglia con una croce verde disegnata sopra.\nDecidi di fidarti del gioco e la bevi.\nDopo qualche minuto inizi a vomitare, controlli la bottiglia e scopri che era scaduta all'incirca 1000anni prima.\nPer fortuna hai vomitato prima che ti entrasse troppo in circolo, perdi solamente un punto vita.\n");
-        (arrayGiocatori + player)->p_vita = (arrayGiocatori + player)->p_vita - 1;
-        break;
-    case 2:
-        printf("Hai aperto uno scrigno dall'aspetto celestiale e al suo interno trovi una bottitglia con una croce verde disegnata sopra.\nDecidi di fidarti del gioco e la bevi.\nL'unghia scheggiata ti riscresce e guadagni un punto vita.\n");
-        (arrayGiocatori + player)->p_vita = (arrayGiocatori + player)->p_vita + 1;
-        break;
-    case 3:
-        printf("Hai aperto uno scrigno dall'aspetto celestiale e al suo interno trovi una bottitglia con una croce verde disegnata sopra.\nDecidi di fidarti del gioco e la bevi.\nTi senti subito al massimo delle tue forze e guadagni due punti vita.\nSicuro che non era dell'eroina?\n");
-        (arrayGiocatori + player)->p_vita = (arrayGiocatori + player)->p_vita + 2;
-        break;
-    default:
-        break;
+
+        switch (eff)
+        {
+        case 0:
+            printf("La stanza è vuota, non trovi alcun tesoro\n");
+            break;
+        case 1:
+            printf("Hai aperto uno scrigno dall'aspetto celestiale e al suo interno trovi una bottitglia con una croce verde disegnata sopra.\nDecidi di fidarti del gioco e la bevi.\nDopo qualche minuto inizi a vomitare, controlli la bottiglia e scopri che era scaduta all'incirca 1000anni prima.\nPer fortuna hai vomitato prima che ti entrasse troppo in circolo, perdi solamente un punto vita.\n");
+            (arrayGiocatori + player)->p_vita = (arrayGiocatori + player)->p_vita - 1;
+            break;
+        case 2:
+            printf("Hai aperto uno scrigno dall'aspetto celestiale e al suo interno trovi una bottitglia con una croce verde disegnata sopra.\nDecidi di fidarti del gioco e la bevi.\nL'unghia scheggiata ti riscresce e guadagni un punto vita.\n");
+            (arrayGiocatori + player)->p_vita = (arrayGiocatori + player)->p_vita + 1;
+            break;
+        case 3:
+            printf("Hai aperto uno scrigno dall'aspetto celestiale e al suo interno trovi una bottitglia con una croce verde disegnata sopra.\nDecidi di fidarti del gioco e la bevi.\nTi senti subito al massimo delle tue forze e guadagni due punti vita.\nSicuro che non era dell'eroina?\n");
+            (arrayGiocatori + player)->p_vita = (arrayGiocatori + player)->p_vita + 2;
+            break;
+        default:
+            break;
+        }
+        (arrayGiocatori + player)->posizione->tesoro_preso = true;
     }
-    (arrayGiocatori + player)->posizione->tesoro_preso = true;
 }
 
 static bool scappa(int player)
@@ -1006,6 +1010,12 @@ static void combatti(int player)
             isPlayer = (playerThrow >= enemyThrow) ? true : false;
         }
     } while ((arrayGiocatori + player)->p_vita > 0 && enemy->p_vita > 0 && !success);
+    if (enemy->p_vita > 0)
+    {
+    }
+    else if ((arrayGiocatori + player)->p_vita > 0)
+    {
+    }
     free(enemy);
 }
 
@@ -1138,7 +1148,33 @@ void gioca()
     } while (!winCheck() && !deathCheck());
 
     printf("game finito");
-
+    if (winCheck())
+    {
+        printf(" ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄         ▄       ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄ \n");
+        printf("▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌     ▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░▌      ▐░▌\n");
+        printf("▐░▌       ▐░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌       ▐░▌     ▐░▌       ▐░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌     ▐░▌\n");
+        printf("▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌▐░▌    ▐░▌\n");
+        printf("▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌ ▐░▌   ▐░▌\n");
+        printf("▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌   ▄   ▐░▌▐░▌       ▐░▌▐░▌  ▐░▌  ▐░▌\n");
+        printf("▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌  ▐░▌  ▐░▌▐░▌       ▐░▌▐░▌   ▐░▌ ▐░▌\n");
+        printf("  ░░░░░░░░░  ▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌ ▐░▌░▌ ▐░▌▐░▌       ▐░▌▐░▌    ▐░▌▐░▌\n");
+        printf("     ▐░▌     ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌     ▐░▌░▌   ▐░▐░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌     ▐░▐░▌\n");
+        printf("     ▐░▌     ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌     ▐░░▌     ▐░░▌▐░░░░░░░░░░░▌▐░▌      ▐░░▌\n");
+        printf("      ▀       ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀       ▀▀       ▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀        ▀▀ \n");
+    }
+    else if (deathCheck())
+    {
+        printf("▓██   ██▓ ▒█████   █    ██    ▓█████▄  ██▓▓█████ ▓█████▄ \n");
+        printf(" ▒██  ██▒▒██▒  ██▒ ██  ▓██▒   ▒██▀ ██▌▓██▒▓█   ▀ ▒██▀ ██▌\n");
+        printf("  ▒██ ██░▒██░  ██▒▓██  ▒██░   ░██   █▌▒██▒▒███   ░██   █▌\n");
+        printf("  ░ ▐██▓░▒██   ██░▓▓█  ░██░   ░▓█▄   ▌░██░▒▓█  ▄ ░▓█▄   ▌\n");
+        printf("  ░ ██▒▓░░ ████▓▒░▒▒█████▓    ░▒████▓ ░██░░▒████▒░▒████▓ \n");
+        printf("   ██▒▒▒ ░ ▒░▒░▒░ ░▒▓▒ ▒ ▒     ▒▒▓  ▒ ░▓  ░░ ▒░ ░ ▒▒▓  ▒ \n");
+        printf(" ▓██ ░▒░   ░ ▒ ▒░ ░░▒░ ░ ░     ░ ▒  ▒  ▒ ░ ░ ░  ░ ░ ▒  ▒ \n");
+        printf(" ▒ ▒ ░░  ░ ░ ░ ▒   ░░░ ░ ░     ░ ░  ░  ▒ ░   ░    ░ ░  ░ \n");
+        printf(" ░ ░         ░ ░     ░           ░     ░     ░  ░   ░    \n");
+        printf(" ░ ░                           ░                  ░       \n");
+    }
     while (getchar() != '\n')
         ;
 }

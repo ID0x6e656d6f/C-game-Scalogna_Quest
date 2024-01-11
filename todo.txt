@@ -1,8 +1,6 @@
-schermata finale morte o vittoria
-
 deallocazione 
 stapa dati giocatore durante combattimento
-
+messaggio morte giocatore o nemico
 
 
 opzionale:
