@@ -1,7 +1,4 @@
-deallocazione 
-stapa dati giocatore durante combattimento
-messaggio morte giocatore o nemico
-
+controllo generale del progetto
 
 opzionale:
 aggiungere più frasi randomiche per le varie situazioni se c'è tempo

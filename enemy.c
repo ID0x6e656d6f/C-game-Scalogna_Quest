@@ -54,6 +54,9 @@ const char *nomiCattivi[] = {
     "The Covenant",
     "Bowser Jr.",
     "Kamek",
+    "Sans",
+    "Papyrus",
+    "Leonardo"
     "King K. Rool"};
 
 void enemyGeneration(Abitante *enemy, int level)
@@ -77,9 +80,9 @@ void enemyGeneration(Abitante *enemy, int level)
     else
     {
         strcpy((enemy->nome), nomiCattivi[pos]);
-        enemy->p_vita = 3;
-        enemy->dadi_attacco = 3 + (level % 2);
-        enemy->dadi_difesa = 2 + (level % 2);
+        enemy->p_vita = 2;
+        enemy->dadi_attacco = 1 + (level % 2);
+        enemy->dadi_difesa = 1 + (level % 2);
     }
 }
 

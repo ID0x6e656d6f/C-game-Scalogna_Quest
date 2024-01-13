@@ -753,9 +753,12 @@ static bool scappa(int player)
     if (diceResult <= (arrayGiocatori + player)->mente)
     {
         printf("Sei riuscito fortunatamente a scappare, torni nella zona successiva\n");
-        (arrayGiocatori + player)->posizione = (arrayGiocatori + player)->posizione->zona_precedente;
-        (arrayGiocatori + player)->posizione->tesoro_preso = false;
-        (arrayGiocatori + player)->posizione_mappa = (arrayGiocatori + player)->posizione_mappa - 1;
+        if ((arrayGiocatori + player)->posizione->zona_precedente != NULL)
+        {
+            (arrayGiocatori + player)->posizione = (arrayGiocatori + player)->posizione->zona_precedente;
+            (arrayGiocatori + player)->posizione->tesoro_preso = false;
+            (arrayGiocatori + player)->posizione_mappa = (arrayGiocatori + player)->posizione_mappa - 1;
+        }
         while (getchar() != '\n')
             ;
         return true;
@@ -950,12 +953,17 @@ static void combatti(int player)
         stmpEnemy(enemy);
         if (isPlayer)
         {
-            printf("\nE' li tuo turno eroe:\n");
-            printf("%s", (arrayGiocatori + player)->potere_speciale > 0 ? "[0]gioca potere speciale\n" : "");
-            printf("[1]scappa\n");
-            printf("[2]attacca\n");
             int tmpChoice;
-            scanf("%d", &tmpChoice);
+            do
+            {
+                printf("\nE' li tuo turno eroe:\n");
+                printf("%s", (arrayGiocatori + player)->potere_speciale > 0 ? "[0]gioca potere speciale\n" : "");
+                printf("[1]scappa\n");
+                printf("[2]attacca\n");
+                printf("[3]stmapa i tuoi dati\n");
+
+                scanf("%d", &tmpChoice);
+            } while (((tmpChoice < 1 || tmpChoice > 3) && !isdigit(tmpChoice)));
             switch (tmpChoice)
             {
             case 0:
@@ -965,6 +973,8 @@ static void combatti(int player)
                     success = true;
                     enemy->p_vita = 0;
                 }
+                isPlayer = false;
+                cnt++;
                 break;
             case 1:
                 success = scappa(player);
@@ -986,14 +996,20 @@ static void combatti(int player)
                     attack(player, enemy, 2);
                 }
                 break;
+                isPlayer = false;
+                cnt++;
             case 2:
                 attack(player, enemy, 1);
+                isPlayer = false;
+                cnt++;
+                break;
+            case 3:
+                clear();
+                stampa_giocatore(player);
                 break;
             default:
                 break;
             }
-            isPlayer = false;
-            cnt++;
         }
         else
         {
@@ -1012,10 +1028,18 @@ static void combatti(int player)
     } while ((arrayGiocatori + player)->p_vita > 0 && enemy->p_vita > 0 && !success);
     if (enemy->p_vita > 0)
     {
+        green();
+        printf("Complimenti, %s è stato sconfitto con successo", enemy->nome);
+        reset();
     }
     else if ((arrayGiocatori + player)->p_vita > 0)
     {
+        red();
+        printf("%s sei stato sconfitto, la tua avventura finisce qui...", (arrayGiocatori + player)->nome);
+        reset();
     }
+    while (getchar() != '\n')
+        ;
     free(enemy);
 }
 
@@ -1085,6 +1109,7 @@ void gioca()
             bool isFirstZone = (arrayGiocatori + actualPlayer)->posizione == pFirst;
             do
             {
+                printf("Zona:%d\n", (arrayGiocatori + actualPlayer)->posizione_mappa);
                 reset();
                 printf("%s cosa desideri fare?\n", (arrayGiocatori + actualPlayer)->nome);
 
@@ -1146,8 +1171,6 @@ void gioca()
         }
         turnCicler = 0;
     } while (!winCheck() && !deathCheck());
-
-    printf("game finito");
     if (winCheck())
     {
         printf(" ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄         ▄       ▄         ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄ \n");
@@ -1177,6 +1200,22 @@ void gioca()
     }
     while (getchar() != '\n')
         ;
+    for (int i = 0; i < nGiocatori; i++)
+    {
+        free((arrayGiocatori + i));
+    }
+
+    Zona_segrete *tmpCurrent = pFirst;
+    Zona_segrete *tmpSucc;
+    int i = 0;
+    do
+    {
+        tmpSucc = (tmpCurrent->zona_successiva);
+        free(tmpCurrent);
+        tmpCurrent = tmpSucc;
+        i++;
+    } while (i < zoneCounter || tmpCurrent != NULL);
+    created = false;
 }
 
 void termina_gioco()

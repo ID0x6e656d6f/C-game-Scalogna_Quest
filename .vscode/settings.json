@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "terminallib.h": "c",
+        "stdio.h": "c"
+    }
+}
